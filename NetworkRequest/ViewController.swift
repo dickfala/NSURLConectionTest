@@ -8,11 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,NSURLConnectionDataDelegate {
                             
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        var url = NSURL.URLWithString("https://photoIpAddress.png");
+        var request = NSURLRequest(URL: url);
+        var connection = NSURLConnection(request: request, delegate: self, startImmediately:true);
+        connection.start()
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +24,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func connection(connection: NSURLConnection!, didReceiveData data: NSData!)
+    {
+        var imageView:UIImageView = UIImageView(frame: CGRectMake(0, 20, 100, 100));
+        let image:UIImage = UIImage(data:data);
+        imageView.image = image;
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit;
+        self.view.addSubview(imageView);
+    }
 }
 
